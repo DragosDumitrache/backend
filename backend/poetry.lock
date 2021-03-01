@@ -388,7 +388,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "7e5977a0c8a337989950538b6036639ca073afd20809f27fb4024d556fe6f5b0"
+content-hash = "06a8728a844758c2489d11dde6cc2f02928c1587e866e200c4e43dc1cbbc2f35"
 
 [metadata.files]
 apipkg = [

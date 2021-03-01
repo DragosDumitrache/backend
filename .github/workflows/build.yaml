@@ -1,0 +1,48 @@
+name: Build backend
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/build.yaml'
+      - 'backend'
+defaults:
+  run:
+    shell: bash
+    working-directory: backend
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install poetry
+        run: python -m pip install --upgrade pip poetry
+
+      - name: Cache multiple paths
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache
+            !~/cache/exclude
+          key: ${{ runner.os }}-backend-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-backend-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Set Poetry config
+        run: |
+          poetry config settings.virtualenvs.in-project false
+          poetry config settings.virtualenvs.path ~/.cache/virtualenvs
+
+      - name: Install Dependencies
+        run: poetry install
+        if: steps.cache.outputs.cache-hit != 'true'
+
+#      - name: Test with pytest
+#        env:
+#          DJANGO_SETTINGS_MODULE: backend.settings
+#        run: poetry run pytest --cov . -n 2

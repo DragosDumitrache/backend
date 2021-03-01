@@ -5,7 +5,7 @@ on:
       - main
     paths:
       - '.github/workflows/build.yaml'
-      - 'backend'
+      - 'backend/**'
 defaults:
   run:
     shell: bash

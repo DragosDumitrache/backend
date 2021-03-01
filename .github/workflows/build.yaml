@@ -11,6 +11,9 @@ defaults:
     shell: bash
     working-directory: backend
 
+env:
+  DJANGO_SETTINGS_MODULE: backend.settings
+
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -42,7 +45,5 @@ jobs:
         run: poetry install
         if: steps.cache.outputs.cache-hit != 'true'
 
-#      - name: Test with pytest
-#        env:
-#          DJANGO_SETTINGS_MODULE: backend.settings
-#        run: poetry run pytest --cov . -n 2
+      - name: Test with pytest
+        run: poetry run pytest --cov . -n 2

@@ -23,8 +23,11 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install poetry
-        run: python -m pip install --upgrade pip poetry
+      - name: Install and configure poetry
+        run: |
+          python -m pip install --upgrade pip poetry
+          poetry config virtualenvs.in-project false
+          poetry config virtualenvs.path ~/.cache/virtualenvs
 
       - name: Cache multiple paths
         uses: actions/cache@v2
@@ -35,11 +38,6 @@ jobs:
           key: ${{ runner.os }}-backend-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
             ${{ runner.os }}-backend-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Set Poetry config
-        run: |
-          poetry config virtualenvs.in-project false
-          poetry config virtualenvs.path ~/.cache/virtualenvs
 
       - name: Install Dependencies
         run: poetry install
